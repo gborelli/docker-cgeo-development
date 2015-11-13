@@ -5,8 +5,12 @@ USER root
 
 # Update buildout.cfg
 COPY buildout.cfg buildout.cfg
-
-RUN chown -R webapp:webapp buildout.cfg
+COPY entrypoint.sh entrypoint.sh
+COPY data data
+RUN chown -R webapp:webapp buildout.cfg data entrypoint.sh
 
 USER webapp
+
 RUN python bin/buildout -v
+
+ENTRYPOINT ["./entrypoint.sh", "demo"]
