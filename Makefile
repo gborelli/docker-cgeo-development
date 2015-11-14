@@ -17,7 +17,7 @@ requirements: $(REQUIREMENTS_INSTALLED)
 
 update: requirements
 	git submodule init
-	git submodule update
+	git submodule update --remote
 
 
 build:

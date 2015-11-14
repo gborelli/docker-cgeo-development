@@ -2,13 +2,15 @@ cgeo:
   build: .
   ports:
     - "8080:8080"
-  # command: testall
-  # volumes_from:
-  #   - cgeodata
+  command: run
+  volumes:
+    - "./src:/srv/webapp/src/"
+  volumes_from:
+    - cgeodata
 
 # See:
 # http://container42.com/2014/11/18/data-only-container-madness/
-# cgeodata:
-#   build: .
-#   entrypoint: "/bin/echo"
-#   command: "Plone data container"
+cgeodata:
+  build: .
+  entrypoint: "/bin/echo"
+  command: "Plone data container"

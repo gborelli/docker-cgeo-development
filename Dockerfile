@@ -6,7 +6,8 @@ USER root
 # Update buildout.cfg
 COPY buildout.cfg buildout.cfg
 COPY entrypoint.sh entrypoint.sh
-RUN chown -R webapp:webapp buildout.cfg entrypoint.sh
+COPY ./src src
+RUN chown -R webapp:webapp buildout.cfg entrypoint.sh src
 
 USER webapp
 
