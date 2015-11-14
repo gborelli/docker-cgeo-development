@@ -13,4 +13,5 @@ USER webapp
 
 RUN python bin/buildout -v
 
-ENTRYPOINT ["./entrypoint.sh", "demo"]
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["demo"]
