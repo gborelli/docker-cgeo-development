@@ -15,6 +15,9 @@ case $1 in
     testall)
         /srv/webapp/bin/test-all
         ;;
+    test)
+        /srv/webapp/bin/test -s ${args[@]:1}
+        ;;
     *)
         exec "$@"
         ;;
