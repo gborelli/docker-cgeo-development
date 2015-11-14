@@ -12,6 +12,9 @@ case $1 in
     run)
         /srv/webapp/bin/instance fg
         ;;
+    testall)
+        /srv/webapp/bin/test-all
+        ;;
     *)
         exec "$@"
         ;;
