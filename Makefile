@@ -1,16 +1,12 @@
 all: run
 
 build:
-	@docker-compose build cgeo
+	@docker-compose build --pull cgeo
+
 
 run:
 	@docker-compose run --rm --service-ports cgeo
 
-testall:
-	@docker-compose run --rm --service-ports cgeo testall
-
-shell:
-	@docker-compose run --rm --service-ports cgeo /bin/bash
 
 stop:
 	@docker-compose stop
@@ -20,4 +16,21 @@ destroy: stop
 	@docker-compose rm -f
 
 
-.PHONY: run build shell stop destroy
+shell:
+	@docker-compose run --rm --service-ports cgeo /bin/bash
+
+
+testall:
+	@docker-compose run --rm --service-ports cgeo testall
+
+
+test:
+ifdef PKG
+	@docker-compose run --rm --service-ports cgeo test ${PKG}
+else
+	$(info USAGE: make test PKG=<package-to-test>)
+	$(info Example: make test PKG=collective.geo.geographer)
+	exit 0
+endif
+
+.PHONY: build run stop destroy shell testall test
