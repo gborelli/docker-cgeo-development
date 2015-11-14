@@ -2,9 +2,7 @@ cgeo:
   build: .
   ports:
     - "8080:8080"
-  volumes:
-    - "./data:/srv/webapp/data/"
-  # command: run
+  # command: testall
   # volumes_from:
   #   - cgeodata
 
