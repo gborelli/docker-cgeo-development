@@ -5,9 +5,10 @@ USER root
 
 # Update buildout.cfg
 COPY buildout.cfg buildout.cfg
+COPY cgeo.cfg cgeo.cfg
 COPY entrypoint.sh entrypoint.sh
 COPY data data
-RUN chown -R webapp:webapp buildout.cfg data entrypoint.sh
+RUN chown -R webapp:webapp buildout.cfg cgeo.cfg data entrypoint.sh
 
 USER webapp
 
