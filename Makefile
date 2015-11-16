@@ -6,7 +6,6 @@ all: run
 
 $(REQUIREMENTS_INSTALLED): requirements.txt
 	@echo "Installing python-requirements..."
-	pip install --upgrade pip
 	pip install -U -r requirements.txt | grep --line-buffered -v '^   '
 
 	@touch $@
@@ -55,5 +54,3 @@ else
 	$(info Example: make test PKG=collective.geo.geographer)
 	exit 0
 endif
-
-

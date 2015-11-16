@@ -1,4 +1,4 @@
-FROM gborelli/cgeo:4.3
+FROM gborelli/plone-cgeo:5.0
 MAINTAINER Giorgio Borelli <giorgio@giorgioborelli.it>
 
 USER root
@@ -12,4 +12,4 @@ RUN chown -R webapp:webapp buildout.cfg entrypoint.sh src
 USER webapp
 
 RUN python bin/buildout -v
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["run"]
