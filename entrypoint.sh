@@ -11,12 +11,8 @@ fi
 
 
 case $1 in
-    demo)
-        cp -r data/* var
-        /srv/webapp/bin/instance fg
-        ;;
     run)
-        /srv/webapp/bin/instance fg
+        /srv/webapp/bin/debuginstance fg
         ;;
     testall)
         /srv/webapp/bin/test-all

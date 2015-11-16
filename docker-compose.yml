@@ -2,7 +2,6 @@ cgeo:
   build: .
   ports:
     - "8080:8080"
-  command: run
   volumes:
     - "./src:/srv/webapp/src/"
   volumes_from:
