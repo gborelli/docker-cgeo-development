@@ -1,4 +1,4 @@
-FROM gborelli/cgeo:4.3
+FROM gborelli/plone-cgeo:4.3
 MAINTAINER Giorgio Borelli <giorgio@giorgioborelli.it>
 
 USER root
