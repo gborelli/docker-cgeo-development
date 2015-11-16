@@ -22,3 +22,7 @@
 [submodule "src/collective.geo.behaviour"]
 	path = src/collective.geo.behaviour
 	url = git@github.com:collective/collective.geo.behaviour.git
+[submodule "src/collective.geo.usersmap"]
+	path = src/collective.geo.usersmap
+	url = git@github.com:collective/collective.geo.usersmap.git
+	branch = master
