@@ -3,6 +3,14 @@ MAINTAINER Giorgio Borelli <giorgio@giorgioborelli.it>
 
 USER root
 
+# Install some packages
+RUN apt-get update && \
+    apt-get install -y  vim screen && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+
 # Update buildout.cfg
 COPY buildout.cfg buildout.cfg
 COPY entrypoint.sh entrypoint.sh
