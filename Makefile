@@ -1,8 +1,38 @@
 REQUIREMENTS_INSTALLED := $(CURDIR)/.installed
 
-.PHONY: requirements update build bootstrap run stop destroy shell testall test
+SRCDIR = ./src/
+GITHUB_URL = git@github.com:collective/
+
+BRANCH=master
+
+SRC_PACKAGES = $(wildcard $(SRCDIR)*)
+
+PACKAGES = \
+	collective.geo.geographer \
+	collective.geo.openlayers \
+	collective.geo.settings \
+	collective.geo.mapwidget \
+	collective.z3cform.mapwidget \
+	collective.geo.behaviour \
+	collective.geo.contentlocations \
+	collective.geo.kml \
+	collective.geo.usersmap
+
+
+.PHONY: clone requirements update build bootstrap run stop destroy shell testall test
 
 all: run
+
+$(PACKAGES):
+	@if [ ! -d $(SRCDIR) ]; then mkdir $(SRCDIR); fi
+	@if [ ! -d $(SRCDIR)$@ ]; then git -C $(SRCDIR) clone -b $(BRANCH) $(GITHUB_URL)$@.git ; fi \
+
+collective.geo.openlayers: BRANCH=3.x
+collective.geo.mapwidget: BRANCH=2.x
+
+
+clone: requirements $(PACKAGES)
+
 
 $(REQUIREMENTS_INSTALLED): requirements.txt
 	@echo "Installing python-requirements..."
@@ -14,12 +44,14 @@ $(REQUIREMENTS_INSTALLED): requirements.txt
 requirements: $(REQUIREMENTS_INSTALLED)
 
 
-update: requirements
-	git submodule init
-	git submodule update --remote
+update:
+	@for pkg in $(SRC_PACKAGES) ; do \
+		echo Update $$pkg ; \
+		git -C $$pkg pull ; \
+	done
 
 
-build:
+build: update
 	@docker-compose build --pull cgeo
 
 
