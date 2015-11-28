@@ -21,7 +21,7 @@ PACKAGES = \
 
 .PHONY: clone requirements update build bootstrap run stop destroy shell testall test
 
-all: run
+all: bootstrap run
 
 $(PACKAGES):
 	@if [ ! -d $(SRCDIR) ]; then mkdir $(SRCDIR); fi
@@ -55,7 +55,7 @@ build: update
 	@docker-compose build --pull cgeo
 
 
-bootstrap: update build
+bootstrap: clone build
 
 
 run:

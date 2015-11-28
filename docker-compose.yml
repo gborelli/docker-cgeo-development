@@ -7,9 +7,6 @@ cgeo:
   volumes_from:
     - cgeodata
 
-# See:
-# http://container42.com/2014/11/18/data-only-container-madness/
+# Data container based on busybox
 cgeodata:
-  build: .
-  entrypoint: "/bin/echo"
-  command: "Plone data container"
+  build: cgeodata

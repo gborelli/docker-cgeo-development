@@ -24,3 +24,12 @@ These are the branches used for Plone 4.
 7. collective.geo.contentlocations - master
 8. collective.geo.kml - master
 9. collective.geo.usersmap - master
+
+
+Bootstrap
+---------
+
+This development environment requires `Docker`_ and `docker-compose`_
+
+.. _Docker: https://www.docker.io/
+.. _docker-compose: https://www.docker.com/docker-compose
