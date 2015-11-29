@@ -1,8 +1,41 @@
 REQUIREMENTS_INSTALLED := $(CURDIR)/.installed
 
-.PHONY: requirements update build bootstrap run stop destroy shell testall test
+DOCKER_PRJ = cgeo
+SRCDIR = ./src/
+GITHUB_URL = git@github.com:collective/
 
-all: run
+BRANCH=master
+
+SRC_PACKAGES = $(wildcard $(SRCDIR)*)
+
+PACKAGES = \
+	collective.geo.geographer \
+	collective.geo.openlayers \
+	collective.geo.settings \
+	collective.geo.mapwidget \
+	collective.z3cform.mapwidget \
+	collective.z3cform.colorpicker \
+	collective.geo.behaviour \
+	collective.geo.kml \
+	collective.geo.usersmap
+
+
+.PHONY: clone requirements update build bootstrap run stop destroy shell testall test
+
+all: bootstrap run
+
+$(PACKAGES):
+	@if [ ! -d $(SRCDIR) ]; then mkdir $(SRCDIR); fi
+	@if [ ! -d $(SRCDIR)$@ ]; then git -C $(SRCDIR) clone -b $(BRANCH) $(GITHUB_URL)$@.git ; fi \
+
+
+# NOTE: example to change branch for some package
+# <package.name>: BRANCH=<branch name>
+# collective.geo.mapwidget: BRANCH=2.x
+
+
+clone: requirements $(PACKAGES)
+
 
 $(REQUIREMENTS_INSTALLED): requirements.txt
 	@echo "Installing python-requirements..."
@@ -14,20 +47,22 @@ $(REQUIREMENTS_INSTALLED): requirements.txt
 requirements: $(REQUIREMENTS_INSTALLED)
 
 
-update: requirements
-	git submodule init
-	git submodule update --remote
+update:
+	@for pkg in $(SRC_PACKAGES) ; do \
+		echo Update $$pkg ; \
+		git -C $$pkg pull ; \
+	done
 
 
-build:
-	@docker-compose build --pull cgeo
+build: update
+	@docker-compose build --pull $(DOCKER_PRJ)
 
 
-bootstrap: update build
+bootstrap: clone build
 
 
 run:
-	@docker-compose run --rm --service-ports cgeo
+	@docker-compose run --rm --service-ports $(DOCKER_PRJ)
 
 
 stop:
@@ -35,20 +70,20 @@ stop:
 
 
 destroy: stop
-	@docker-compose rm -f
+	@docker-compose rm -f -v
 
 
 shell:
-	@docker-compose run --rm --service-ports cgeo /bin/bash
+	@docker-compose run --rm --service-ports $(DOCKER_PRJ) /bin/bash
 
 
 testall:
-	@docker-compose run --rm --service-ports cgeo testall
+	@docker-compose run --rm --service-ports $(DOCKER_PRJ) testall
 
 
 test:
 ifdef PKG
-	@docker-compose run --rm --service-ports cgeo test ${PKG}
+	@docker-compose run --rm --service-ports $(DOCKER_PRJ) test ${PKG}
 else
 	$(info USAGE: make test PKG=<package-to-test>)
 	$(info Example: make test PKG=collective.geo.geographer)
